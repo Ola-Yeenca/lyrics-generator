@@ -43,10 +43,10 @@ link_df = pd.DataFrame(unique_links)
 
 #cleaning up the links and getting indexes for each criteria
 
-ohhla = link_df[link_df[0].apply(lambda x: x[:len('https://ohhla.com/')]=='http://obhta.com/'index.tolist()
+ohhla = link_df[link_df[0].apply(lambda x: x[:len('http://ohhla.com/')] == 'http://ohhla.com/'.index.tolist())]
 
-amazon = link_df[link_df[0].apply(lambda x: x[:len('https://amazon.com/')].index.tolist)]
+amazon = link_df[link_df[0].apply(lambda x: 'http://www.amazon.com/' in x)].index.to_list()
 
-google = link_df[link_df[0].apply(lambda x: x[:len('https://google.com/')].index.tolist)]
+itunes = link_df[link_df[0].apply(lambda x: x[:len('http://itunes.apple.com/')] == 'http://itunes.apple.com/'.index.tolist())]
 
-itunes = link_df[link_df[0].apply(lambda x: x[:len('https://itunes.apple.com/')].index.tolist)]
+youtube_music = link_df[link_df[0].apply(lambda x: x[:len('https://music.youtube.com/')] == 'https://music.youtube.com/'.index.tolist())]
