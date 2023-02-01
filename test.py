@@ -17,7 +17,7 @@ def get_links(links):
     gross_links = [link['href'] for link in soup.find_all('a',href=True)]
     return gross_links
 
-start=time()
+
 
 #adding all links together
 links_per_total_links = []
@@ -31,4 +31,22 @@ with ThreadPoolExecutor(max_workers=10) as executor:
 for process in as_completed(processes):
     links_per_total_links.append(process.result())
 
-end=time()
+
+
+
+
+#removing all the links that are not lyrics
+all_links =[ item for sublist in links_per_total_links for item in sublist]
+unique_links =[]
+unique_links = [link for link in all_links if link is not unique_links ]
+link_df = pd.DataFrame(unique_links)
+
+#cleaning up the links and getting indexes for each criteria
+
+ohhla = link_df[link_df[0].apply(lambda x: x[:len('https://ohhla.com/')]=='http://obhta.com/'index.tolist()
+
+amazon = link_df[link_df[0].apply(lambda x: x[:len('https://amazon.com/')].index.tolist)]
+
+google = link_df[link_df[0].apply(lambda x: x[:len('https://google.com/')].index.tolist)]
+
+itunes = link_df[link_df[0].apply(lambda x: x[:len('https://itunes.apple.com/')].index.tolist)]
