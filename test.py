@@ -1,9 +1,9 @@
 #lyrics generator with python
 
 import requests
-from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
+from bs4 import BeautifulSoup
 import pandas as pd
 
 total_links = [ 'http://ohhla.com/all.html',
@@ -131,7 +131,6 @@ start = time()
 
 all_text_links = pd.read_csv(r'total_text_links.txt',header=None)[0].tolist()
 
-lyrics = []
 
 def get_lyrics(text_links):
     url = 'http://ohhla.com/' + text_links
@@ -146,3 +145,17 @@ def get_lyrics(text_links):
     else:
         double_loc = html.find('n|n') + 2
         return html[double_loc:]
+
+
+lyrics = []
+
+processes = []
+
+with ThreadPoolExecutor(max_workers=10) as executor:
+    for count, link in enumerate(text_links['Text_Link']):
+        print(count)
+        processes.append(executor.submit(get_lyrics,link))
+
+for process in as_completed(processes):
+    links_per_total_links.append(process.result())
+    [[]]
