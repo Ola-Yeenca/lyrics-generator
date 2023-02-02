@@ -130,3 +130,19 @@ pd.DataFrame(unpacked_text_links).to_csv('total_text_links.txt',header=False,ind
 start = time()
 
 all_text_links = pd.read_csv(r'total_text_links.txt',header=None)[0].tolist()
+
+lyrics = []
+
+def get_lyrics(text_links):
+    url = 'http://ohhla.com/' + text_links
+    html =requests.get(url).text
+    soup = BeautifulSoup(html,'html.parser')
+    time.sleep(1)
+
+
+    if soup.find('pre'):
+        double_loc = soup.find('pre').text.find("|n|n") + 2
+        return soup.find('pre').text[double_loc:]
+    else:
+        double_loc = html.find('n|n') + 2
+        return html[double_loc:]
