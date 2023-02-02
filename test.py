@@ -65,3 +65,31 @@ rap_reviews = link_df[link_df[0].apply(lambda x: x[:len('https://www.rapreviews.
 total_remove = ohhla + amazon + itunes + youtube_music + apk + all_html + rap_reviews
 link_df.drop(total_remove,inplace=True)
 link_df.to_csv('initial_directories.txt',header=False,index=False)
+
+#getting sub directories of artistes
+
+start = time()
+
+dir_list = pd.read_csv(r'initial_directories.txt',header=None)[0].tolist()
+sub_dir_list = []
+
+def get_sub_links(links):
+    url = 'http://ohhla.com/' + links
+    soup = BeautifulSoup(requests.get(url).text,'html.parser')
+    gross_links = [links + link['href'] for link in soup.find_all('a',href=True) if '/' in link ['href'] and 'anonymous' not in link['href']]
+
+    return gross_links
+
+processes = []
+
+with ThreadPoolExecutor(max_workers=10) as executor:
+    for link in dir_list:
+        processes.append(executor.submit(get_sub_links,link))
+
+for process in as_completed(processes):
+    sub_dir_list.append(process.result())
+
+
+unpacked_sub_dir_list = [item for each_dir in sub_dir_list for item in each_dir]
+
+sub_dir_df = pd.DataFrame(unpacked_sub_dir_list).to_csv('total_sub_directories.txt',header=False,index=False)
