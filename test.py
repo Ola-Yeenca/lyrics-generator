@@ -43,10 +43,25 @@ link_df = pd.DataFrame(unique_links)
 
 #cleaning up the links and getting indexes for each criteria
 
-ohhla = link_df[link_df[0].apply(lambda x: x[:len('http://ohhla.com/')] == 'http://ohhla.com/'.index.tolist())]
+ohhla = link_df[link_df[0].apply(lambda x: x[:len('http://ohhla.com/')] == 'http://ohhla.com/')].index.tolist()
 
-amazon = link_df[link_df[0].apply(lambda x: 'http://www.amazon.com/' in x)].index.to_list()
+amazon = link_df[link_df[0].apply(lambda x: 'http://www.amazon.com/' in x)].index.tolist()
 
-itunes = link_df[link_df[0].apply(lambda x: x[:len('http://itunes.apple.com/')] == 'http://itunes.apple.com/'.index.tolist())]
+itunes = link_df[link_df[0].apply(lambda x: x[:len('http://itunes.apple.com/')] == 'http://itunes.apple.com/')].index.tolist()
 
-youtube_music = link_df[link_df[0].apply(lambda x: x[:len('https://music.youtube.com/')] == 'https://music.youtube.com/'.index.tolist())]
+youtube_music = link_df[link_df[0].apply(lambda x: x[:len('https://music.youtube.com/')] == 'https://music.youtube.com/')].index.tolist()
+
+apk = link_df[link_df[0].apply(lambda x: x[:len('https://www.apkfollow.com/')] == 'https://www.apkfollow.com/')].index.tolist()
+
+all_text = link_df[link_df[0].apply(lambda x: x[:len('all')]=='all')].index.tolist()
+
+all_html = link_df[link_df[0].apply(lambda x:'.html' in x )].index.tolist()
+
+rap_reviews = link_df[link_df[0].apply(lambda x: x[:len('https://www.rapreviews.com/')] == 'https://www.rapreviews.com/')].index.tolist()
+
+
+#removing all the links that are not lyrics
+
+total_remove = ohhla + amazon + itunes + youtube_music + apk + all_html + rap_reviews
+link_df.drop(total_remove,inplace=True)
+link_df.to_csv('initial_directories.txt',header=False,index=False)
